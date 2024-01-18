@@ -1,0 +1,8 @@
+
+n
+java:S2095"LUse try-with-resources or close this "BufferedReader" in a "finally" clause.(æù§…ýÿÿÿÿ8®Žä›Æ1
+n
+java:S2095*"LUse try-with-resources or close this "BufferedWriter" in a "finally" clause.(Í×€Óýÿÿÿÿ8þš©›Æ1
+c
+java:S1075	"ARefactor your code to get this URI from a customizable parameter.(º¡‚­ýÿÿÿÿ8´Žä›Æ1
+L	java:S106""+Replace this use of System.out by a logger.(çåŸíÿÿÿÿÿ8æŽä›Æ1

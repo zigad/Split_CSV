@@ -1,31 +1,36 @@
 package org.example;
 
 import java.io.*;
-import java.util.concurrent.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Main {
+
     public static void main(String[] args) {
+        String input = args[0];
+        String output = "missing" + args[1];
+
         // Fixed file location of the large CSV file
-        String filePath = "/Users/zigad/Downloads/CEEPS_All_Data (1)/CEEPS_METERREADINGINTERVAL.csv";
-        int startId = 54_020_183; // Define the starting ID for exporting data
-        int rowsPerChunk = 255_000_000; // Define the number of rows per chunk
+        Long startId = Long.valueOf(args[2]); // Define the starting ID for exporting data
+        int rowsPerChunk = 100_000; // Define the number of rows per chunk
         int numberOfThreads = 8; // Adjust the number of threads as needed
 
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(filePath));
+            BufferedReader reader = new BufferedReader(new FileReader(input));
             String header = reader.readLine(); // Read and store the header
 
             String line;
-            int currentId = 0;
+            Long currentId = 0L;
             ExecutorService executor = Executors.newFixedThreadPool(numberOfThreads);
 
             // Find the starting ID
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(";");
                 if (parts.length > 0 && parts[0].matches("\\d+")) {
-                    currentId = Integer.parseInt(parts[0]);
+                    currentId = Long.parseLong(parts[0]);
                     if (currentId >= startId) {
-                        break;g
+                        break;
                     }
                 }
             }
@@ -38,7 +43,7 @@ public class Main {
             int fileNumber = 1;
 
             while ((line = reader.readLine()) != null) {
-                String chunkFilePath = "/Users/zigad/Downloads/CEEPS_All_Data (1)/smaller_file_" + fileNumber + ".csv";
+                String chunkFilePath = output + fileNumber + ".csv";
                 BufferedWriter writer = new BufferedWriter(new FileWriter(chunkFilePath));
 
                 writer.write(header); // Write the header to each chunk file
